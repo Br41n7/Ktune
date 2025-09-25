@@ -1,4 +1,3 @@
-import re
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from .forms import LoginForm, RegistrationForm

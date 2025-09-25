@@ -12,7 +12,7 @@ class Artist(models.Model):
 class Venue(models.Model):
     name = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
-    capacity = models.IntegerField()
+    capacity = models.PositiveIntegerField(null=True,blank=True)
 
     def _str_(self):
         return self.name
@@ -43,7 +43,7 @@ class Event(models.Model):
 class EventTicket(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    quantity = models.IntegerField()
+    quantity = models.PositiveIntegerField(null=True,blank=True)
 
     def _str_(self):
         return f"{self.event.name} - ${self.price}"
@@ -51,7 +51,7 @@ class EventTicket(models.Model):
 class Review(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    rating = models.IntegerField()
+    rating = models.PositiveIntegerField(null=True,blank=True)
     review = models.TextField(blank=True, null=True)
 
 class Favorite(models.Model):
