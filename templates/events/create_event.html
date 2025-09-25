@@ -1,0 +1,63 @@
+{% block content %}
+<div class="container my-5">
+  <div class="card shadow-sm">
+    <div class="card-header bg-purple text-white">
+      <h4 class="mb-0">Publish New Event</h4>
+    </div>
+    <div class="card-body">
+      <form method="post" enctype="multipart/form-data" class="row g-3">
+        {% csrf_token %}
+        
+        <div class="col-md-6">
+          <label for="id_name" class="form-label">Event Name</label>
+          {{ form.name|add_class:"form-control" }}
+        </div>
+
+        <div class="col-md-6">
+          <label for="id_category" class="form-label">Category</label>
+          {{ form.category|add_class:"form-select" }}
+        </div>
+
+        <div class="col-md-6">
+          <label for="id_venue" class="form-label">Venue</label>
+          {{ form.venue|add_class:"form-select" }}
+        </div>
+
+        <div class="col-md-6">
+          <label for="id_artist" class="form-label">Artist</label>
+          {{ form.artist|add_class:"form-select" }}
+        </div>
+
+        <div class="col-md-6">
+          <label for="id_date" class="form-label">Event Date</label>
+          {{ form.date|add_class:"form-control" }}
+        </div>
+
+        <div class="col-md-3">
+          <label for="id_start_time" class="form-label">Start Time</label>
+          {{ form.start_time|add_class:"form-control" }}
+        </div>
+
+        <div class="col-md-3">
+          <label for="id_end_time" class="form-label">End Time</label>
+          {{ form.end_time|add_class:"form-control" }}
+        </div>
+
+        <div class="col-md-12">
+          <label for="id_description" class="form-label">Description</label>
+          {{ form.description|add_class:"form-control" }}
+        </div>
+
+        <div class="col-md-12">
+          <label for="id_image" class="form-label">Upload Event Image</label>
+          {{ form.image|add_class:"form-control" }}
+        </div>
+
+        <div class="col-12 mt-3">
+          <button type="submit" class="btn btn-purple">Publish Event</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

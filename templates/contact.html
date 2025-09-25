@@ -1,0 +1,25 @@
+   <section id="contact" class="py-5 bg-black text-white">
+       <div class="container">
+           <div class="text-center mb-5">
+               <h2 class="fw-bold">Get In Touch</h2>
+               <p class="text-muted">Have a question or want to work with us? Let’s talk.</p>
+           </div>
+           {% if success %}
+               <div class="alert alert-success" role="alert">
+                   Your message has been sent successfully!
+               </div>
+           {% endif %}
+           <div class="row g-4">
+               <div class="col-md-6">
+                   <form method="post">
+                       {% csrf_token %}
+                       {{ form.as_p }}
+                       <button type="submit" class="btn btn-primary">Send Message</button>
+                   </form>
+               </div>
+               <div class="col-md-6">
+                   <!-- Contact info -->
+               </div>
+           </div>
+       </div>
+   </section>

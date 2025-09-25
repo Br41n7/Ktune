@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5">
+  <!-- Categories filter -->
+  <div class="mb-4 d-flex flex-wrap gap-2 justify-content-center">
+    {% for category in categories %}
+    <a href="{% url 'event_list' %}?category={{ category.id }}" class="badge bg-purple text-decoration-none px-3 py-2">
+      {{ category.name }}
+    </a>
+    {% endfor %}
+  </div>
+
+  <!-- Events grid -->
+  <div class="row">
+    {% for event in events %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm">
+        {% if event.image %}
+        <img src="{{ event.image.url }}" class="card-img-top rounded-top" alt="{{ event.name }}">
+        {% else %}
+        <img src="https://source.unsplash.com/400x250/?concert" class="card-img-top rounded-top" alt="Event image">
+        {% endif %}
+        <div class="card-body d-flex flex-column">
+          <span class="badge bg-purple mb-2">{{ event.category.name }}</span>
+          <h5 class="card-title">{{ event.name }}</h5>
+          <p class="card-text flex-grow-1">{{ event.description|truncatewords:15 }}</p>
+          <div class="d-flex justify-content-between mt-3">
+            <a href="#" class="btn btn-outline-purple btn-sm" title="Share event">
+              <i class="bi bi-share-fill"></i> Share
+            </a>
+            <a href="{% url 'book_ticket' event.id %}" class="btn btn-purple btn-sm" title="Book tickets">
+              <i class="bi bi-ticket-perforated"></i> Book
+            </a>
+            <a href="#" class="btn btn-outline-purple btn-sm" title="Add to favorites">
+              <i class="bi bi-heart"></i> Favorite
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

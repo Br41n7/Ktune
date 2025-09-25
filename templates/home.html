@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome to KTune{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="container">
+    <h1>Discover & Book The Best Events</h1>
+    <p class="lead mb-4">Music concerts, art shows, and more — all in one place.</p>
+    <a href="{% url 'accounts:login' %}" class="btn btn-purple btn-lg px-5">Get Started</a>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="my-5">
+  <div class="container text-center">
+    <h2 class="mb-4">Why Choose KTune?</h2>
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-4">
+        <div class="feature-card">
+          <i class="bi bi-ticket-perforated feature-icon"></i>
+          <h4>Easy Ticket Booking</h4>
+          <p>Simple and secure booking for all your favorite events.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <i class="bi bi-people feature-icon"></i>
+          <h4>Trusted Hosts & Artists</h4>
+          <p>Connect directly with verified event hosts and artists.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <i class="bi bi-calendar-event feature-icon"></i>
+          <h4>Upcoming Events</h4>
+          <p>Never miss out on exciting concerts and shows near you.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Events Preview -->
+<section class="my-5 bg-light py-5">
+  <div class="container">
+    <h2 class="mb-4 text-center">Featured Events</h2>
+    <div class="row g-4">
+      {% comment %} Example event card, replace with your dynamic events {% endcomment %}
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <img src="https://source.unsplash.com/400x250/?concert" class="card-img-top rounded-top" alt="Event image" />
+          <div class="card-body">
+            <h5 class="card-title">Summer Music Festival</h5>
+            <p class="card-text">Join us for an unforgettable night of music and fun.</p>
+            <a href="#" class="btn btn-purple btn-sm">Book Now</a>
+          </div>
+        </div>
+      </div>
+      <!-- Loop through more events -->
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials / News Section -->
+<section class="my-5">
+  <div class="container text-center">
+    <h2 class="mb-4">What Our Users Say</h2>
+    <blockquote class="blockquote">
+      <p>"KTune made booking concert tickets effortless and fun!"</p>
+      <footer class="blockquote-footer">Jane Doe, Music Lover</footer>
+    </blockquote>
+    <blockquote class="blockquote mt-4">
+      <p>"A reliable platform with great events and customer support."</p>
+      <footer class="blockquote-footer">John Smith, Artist</footer>
+    </blockquote>
+  </div>
+</section>
+{% endblock %}

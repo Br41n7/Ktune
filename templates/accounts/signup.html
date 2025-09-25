@@ -1,0 +1,10 @@
+<form method="post">
+  {% csrf_token %}
+  {{ form.email }}
+  {{ form.password }}
+  {{ form.confirm_password }}
+  <label>
+    {{ form.is_host }} Register as Host
+  </label>
+  <button type="submit">Sign Up</button>
+</form>

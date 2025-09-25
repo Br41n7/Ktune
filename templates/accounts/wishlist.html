@@ -1,0 +1,3 @@
+{% for wishlist_event in user.wishlist_set.all %}
+{{ wishlist_event.event.title }}
+{% endfor %}

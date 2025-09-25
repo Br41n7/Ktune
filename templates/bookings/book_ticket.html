@@ -1,0 +1,8 @@
+<!-- bookings/templates/bookings/book_ticket.html -->
+<h1>Book Tickets for {{ event.name }}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Book Now</button>
+</form>
+

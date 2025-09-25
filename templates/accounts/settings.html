@@ -1,0 +1,11 @@
+<h2>Account Settings</h2>
+
+{% if not user.is_host %}
+<form method="post">
+  {% csrf_token %}
+  <p>Want to become a host and publish events?</p>
+  <button type="submit" name="migrate_to_host" value="yes" class="btn btn-primary">Migrate to Host</button>
+</form>
+{% else %}
+<p>You are a host. Thanks for being with us!</p>
+{% endif %}

@@ -1,0 +1,3 @@
+{% for booking in booking_history %}
+{{ booking.booking.event.title }} ({{ booking.status }})
+{% endfor %}

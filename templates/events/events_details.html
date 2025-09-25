@@ -1,0 +1,14 @@
+<!-- events/templates/events/event_detail.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ event.name }}</h1>
+  <p>Artist: {{ event.artist }}</p>
+  <p>Venue: {{ event.venue }}</p>
+  <p>Date: {{ event.date }} {{ event.time }}</p>
+  <!-- events/templates/events/event_detail.html -->
+<a href="https:                                                                                              
+<a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}">Share on Twitter</a>
+
+{% endblock %}
+
