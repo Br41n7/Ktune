@@ -1,0 +1,48 @@
+/* Artist Reels Scroll */
+.artist-reels {
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-bottom: 8px;
+}
+
+.artist-reels .reel {
+  display: inline-block;
+  width: 120px;
+  margin-right: 10px;
+  position: relative;
+}
+
+.artist-reels video {
+  border-radius: 10px;
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+/* Bottom Nav */
+.navbar.fixed-bottom .nav-link {
+  font-size: 0.8rem;
+  padding: 4px;
+}
+
+.navbar.fixed-bottom .nav-link i {
+  font-size: 1.3rem;
+  display: block;
+}
+
+/* Card Buttons */
+.card-body .btn {
+  font-size: 0.75rem;
+  padding: 3px 8px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 576px) {
+  .card h6 {
+    font-size: 0.9rem;
+  }
+
+  .card p {
+    font-size: 0.7rem;
+  }
+}

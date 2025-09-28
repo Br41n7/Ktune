@@ -1,3 +1,4 @@
+from asyncio import events
 from django import forms
 from .models import Booking
 
@@ -10,4 +11,13 @@ class BookingForm(forms.ModelForm):
 
     class Meta:
         model = Booking
-        fields = ['quantity']
+        fields = ('quantity',)
+        # fields = ('ticket', 'quantity')
+
+
+
+    # def init(self,*args,**kwargs):
+    #     event=kwargs.pop('events',None)
+    #     super().init(*args,**kwargs)
+    #     if events:
+    #         self.fields['ticket'].queryset=events.tickets.

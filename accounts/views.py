@@ -1,6 +1,8 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from .forms import LoginForm, RegistrationForm
+from reels.models import Reel
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -11,7 +13,7 @@ def login_view(request):
             user = authenticate(request, email=email, password=password)  # Add request param
             if user is not None:
                 login(request, user)
-                return redirect('dashboard')
+                return redirect('accounts:dashboard')
             else:
                 form.add_error(None, "Invalid email or password")
     else:
@@ -26,7 +28,8 @@ def registration_view(request):
             user.set_password(form.cleaned_data['password'])
             user.is_host = form.cleaned_data['is_host']
             user.save()
-            return redirect('login')
+            login(request,user)
+            return redirect('accounts:dashboard')
     else:
         form = RegistrationForm()
     return render(request, 'accounts/signup.html', {'form': form})

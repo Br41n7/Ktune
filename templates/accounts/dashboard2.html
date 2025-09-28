@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-3">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <!-- Artist Highlights -->
+  <h5>reels</h5>
+  <div class="d-flex overflow-auto mb-3">
+    {% for reel in artist_reels %}
+    <div class="me-2 text-center">
+      <div class="position-relative">
+        <video width="120" height="160" muted loop>
+          <source src="{{ reel.video.url }}" type="video/mp4">
+        </video>
+        <a href="{% url 'view_reel' reel.id %}" class="position-absolute top-50 start-50 translate-middle">
+          <i class="bi bi-play-circle-fill fs-2 text-white"></i>
+        </a>
+      </div>
+      <small>{{ reel.artist.name }}</small>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Search and Category -->
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Search events..." name="q">
+    <select class="form-select" name="category">
+      <option value="">Category</option>
+      {% for cat in categories %}
+      <option value="{{ cat.id }}">{{ cat.name }}</option>
+      {% endfor %}
+    </select>
+    <button class="btn btn-outline-secondary" type="submit">Go</button>
+  </div>
+
+  <!-- Upcoming Events -->
+  <h5>Upcoming Events</h5>
+  <div class="row">
+    {% for event in events %}
+    <div class="col-6 mb-4">
+      <div class="card">
+        <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.name }}">
+        <div class="card-body">
+          <h6>{{ event.name }}</h6>
+          <p class="small mb-1">{{ event.date }} | {{ event.start_time }}</p>
+          <p class="small">{{ event.venue.name }}</p>
+          <div class="d-flex justify-content-between">
+            <a href="{% url 'book_ticket' event.id %}" class="btn btn-sm btn-primary">Book</a>
+            <a href="{% url 'add_favorite' event.id %}" class="btn btn-sm btn-outline-secondary"><i
+                class="bi bi-heart"></i></a>
+            <a href="#" class="btn btn-sm btn-outline-secondary"><i class="bi bi-share"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+
+<!-- Bottom Navigation -->
+<nav class="navbar fixed-bottom navbar-light bg-light border-top">
+  <div class="container justify-content-around">
+    <a class="nav-link text-center" href="{% url 'accounts:dashboard' %}"><i
+        class="bi bi-house fs-4"></i><br><small>Home</small></a>
+    <a class="nav-link text-center" href="{% url 'events:event_list' %}"><i
+        class="bi bi-calendar-event fs-4"></i><br><small>Events</small></a>
+    {% comment %}
+    <a class="nav-link text-center" href="{% url 'messages' %}"><i
+        class="bi bi-chat-dots fs-4"></i><br><small>Messages</small></a>
+    <a class="nav-link text-center" href="{% url 'profile' %}"><i
+        class="bi bi-person fs-4"></i><br><small>Profile</small></a>
+    {% endcomment %}
+  </div>
+</nav>
+{% endblock %}
