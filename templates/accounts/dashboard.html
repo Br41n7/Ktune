@@ -1,112 +1,70 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en" class="dark-mode">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Dashboard</title>
-    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-</head>
-<body>
-  <nav class="top-nav">
-    <div class="container d-flex justify-content-between align-items-center py-2">
-      <a href="{% url 'home' %}" class="logo">ktune</a>
-      <ul class="nav-links d-none d-md-flex">
-        <li><a href="{% url 'home' %}">Events</a></li>
-        <li><a href="{% url 'home' %}">Messages</a></li>
-        <li><a href="{% url 'home' %}">Notifications</a></li>
-        <li><a href="{% url 'home' %}">Profile</a></li>
-          <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
-        {% if user.is_authenticated %}
-          <li><a href="{% url 'accounts:login' %}">Login</a></li>
-        {% else %}
-        <li><a href="{% url 'accounts:login' %}">Login</a></li>
-        {% endif %}
+
+{% block content %}
+<div class="container mt-4">
+  <!-- Top Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light rounded shadow-sm mb-4">
+    <div class="container-fluid">
+      <span class="navbar-brand fw-bold text-purple">Dashboard</span>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Events</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Messages</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Notifications</a></li>
       </ul>
-      <button class="btn btn-purple d-md-none" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
     </div>
   </nav>
 
-          <select id="categorySelect" name="category" class="form-select w-auto">
-            <option value="">All</option>
-            <option value="festival">Festival</option>
-            <option value="music">Music</option>
-            <option value="comedy">Comedy</option>
-            <option value="show">Show</option>
-          </select>
-          <input type="search" name="q" class="form-control" placeholder="Search events..." />
-          <button type="submit" class="btn btn-purple">Search</button>
-        </form>
+  <!-- Welcome -->
+  <h4 class="mb-3">Welcome, {{ user.username }}!</h4>
 
-        <!-- Events List -->
-        <section>
-          <h3 class="text-light mb-3">Events</h3>
-          <div class="events-list row g-3">
-            {% for event in events %}
-            <div class="col-12 col-md-6 col-lg-4 event-card p-3 rounded">
-              <img src="{{ event.image.url }}" alt="{{ event.name }}" class="img-fluid rounded" />
-              <h5 class="mt-2">{{ event.name }}</h5>
-              <p class="text-muted">{{ event.date|date:"F j, Y" }}</p>
-              <div class="categories mb-2">
-                {% for cat in event.category.all %}
-                <span class="badge bg-purple">{{ cat.name }}</span>
-                {% endfor %}
-        <form method="GET" class="d-flex mb-3 gap-2 align-items-center">
-          <label for="categorySelect" class="text-light mb-0">Category:</label>
-      <a href="{% url 'book_ticket' event.id %}" class="btn btn-purple btn-sm">Book</a>
-                <div>
-                  <button class="btn btn-sm btn-favorite"><i class="far fa-heart"></i></button>
-                  <button class="btn btn-sm btn-share"><i class="fas fa-share-alt"></i></button>
-                </div>
-                    <button class="btn btn-sm btn-share"><i class="fas fa-share-alt"></i></button>
-                  </div>
-              </div>
-            </div>
-            {% empty %}
-            <p class="text-light">No events found.</p>
-            {% endfor %}
+  <!-- Events List -->
+  {% for event in events %}
+  <div class="card mb-3 shadow-sm">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src="{{ event.image.url }}" class="img-fluid rounded-start" alt="{{ event.name }}">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{ event.name }}</h5>
+          <p class="card-text mb-1">{{ event.date }} • {{ event.venue.name }}</p>
+          <div class="d-flex gap-2 mt-2">
+            <a href="{% url 'favorite_event' event.id %}" class="btn btn-outline-secondary btn-sm">❤️</a>
+            <a href="{% url 'share_event' event.id %}" class="btn btn-outline-secondary btn-sm">🔗</a>
+            <a href="{% url 'event_detail' event.id %}" class="btn btn-outline-primary btn-sm">View Details</a>
           </div>
-        </section>
-
-        <!-- Reels Section -->
-        <section class="mt-5">
-          <h3 class="text-light mb-3">Artist Reels</h3>
-          <div class="reels-list d-flex overflow-auto gap-3">
-            {% for reel in reels %}
-            <div class="reel-card rounded">
-              <video src="{{ reel.video.url }}" controls class="rounded"></video>
-              <p class="text-light mt-1">{{ reel.artist.name }}</p>
-            </div>
-            {% empty %}
-            <p class="text-light">No reels available.</p>
-            {% endfor %}
-          </div>
-        </section>
-      </main>
+        </div>
+      </div>
     </div>
   </div>
+  {% empty %}
+  <p>No events available.</p>
+  {% endfor %}
 
-  <a href="{% url 'home' %}" class="text-purple text-center">
-  <nav class="bottom-nav d-md-none fixed-bottom bg-dark d-flex justify-content-around align-items-center py-2">
-    <a href="{% url 'home' %}" class="text-purple text-center">
-      <i class="fas fa-home fa-lg"></i><br />Home
-    </a>
-    <a href="{% url 'home' %}" class="text-purple text-center">
-      <i class="fas fa-envelope fa-lg"></i><br />Messages
-    </a>
-    <a href="{% url 'home' %}" class="text-purple text-center">
-      <i class="fas fa-calendar fa-lg"></i><br />Events
-    </a>
-    <a href="{% url 'home' %}" class="text-purple text-center">
-      <i class="fas fa-user fa-lg"></i><br />Profile
-    </a>
-  </nav>
+  <!-- Reels Section -->
+  <h5 class="mt-5 mb-3">🎬 Artist Reels</h5>
+  <div class="d-flex overflow-auto gap-3 reels-scroll">
+    {% for reel in reels %}
+    <div class="card" style="min-width: 200px;">
+      <video src="{{ reel.video.url }}" controls class="w-100 rounded"></video>
+      <div class="card-body p-2">
+        <small class="text-muted">{{ reel.artist.name }}</small>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
 
-  <script>
-    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
-      document.querySelector('.sidebar').classList.toggle('show');
-    });
-</html>
+<!-- Bottom Navigation -->
+<nav class="navbar fixed-bottom navbar-light bg-light shadow-sm">
+  <div class="container d-flex justify-content-around">
+    <a href="#" class="text-center"><i class="bi bi-house-door"></i><br>Home</a>
+    <a href="#" class="text-center"><i class="bi bi-calendar-event"></i><br>Events</a>
+    <a href="#" class="text-center"><i class="bi bi-heart"></i><br>Favorites</a>
+    <a href="#" class="text-center"><i class="bi bi-ticket-perforated"></i><br>Bookings</a>
+    <a href="#" class="text-center"><i class="bi bi-person"></i><br>Profile</a>
+  </div>
+</nav>
+{% endblock %}

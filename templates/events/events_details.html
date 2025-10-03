@@ -1,14 +1,42 @@
-<!-- events/templates/events/event_detail.html -->
+<!-- templates/event_detail.html -->
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-  <h1>{{ event.name }}</h1>
-  <p>Artist: {{ event.artist }}</p>
-  <p>Venue: {{ event.venue }}</p>
-  <p>Date: {{ event.date }} {{ event.time }}</p>
-  <!-- events/templates/events/event_detail.html -->
-<a href="https:                                                                                              
-<a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}">Share on Twitter</a>
+{% include 'nav2.html' %}
 
+<div class="container mt-4">
+  <div class="card shadow">
+    <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.name }}">
+    <div class="card-body">
+      <h4 class="card-title">{{ event.name }}</h4>
+      <p class="card-text"><strong>Date:</strong> {{ event.date }}</p>
+      <p class="card-text"><strong>Venue:</strong> {{ event.venue }}</p>
+      <p class="card-text">{{ event.description }}</p>
+      <p class="card-text"><strong>Price:</strong> {{ event.eventticket.price }} NGN</p>
+
+      <div class="d-grid gap-2 mt-3">
+        <a href="{% url 'book_ticket' event.id %}" class="btn btn-success">Book Now</a>
+        <button class="btn btn-outline-secondary">Add to Favorites</button>
+        <button class="btn btn-outline-primary" onclick="shareEvent()">Share</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function shareEvent() {
+    if (navigator.share) {
+      navigator.share({
+        title: '{{ event.name }}',
+        text: 'Check out this event!',
+        window.location.href,
+      });
+    } else {
+      alert('Sharing not supported on this browser.');
+    }
+  }
+</script>
+
+{% include 'bnav.html' %}
 {% endblock %}
-

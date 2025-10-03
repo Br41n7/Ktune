@@ -1,0 +1,68 @@
+<!-- templates/nav2.html -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'dashboard' %}">KTune</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dashboardNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="dashboardNavbar">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'event_list' %}">Events</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'booking_history' %}">History</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'messages' %}">Messages</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'favorites' %}">Favorites</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+             {{ request.user.username }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="{% url 'settings' %}">Settings</a></li>
+            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+{% comment %}
+<!-- templates/nav2.html -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom sticky-top shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold text-primary" href="{% url 'dashboard' %}">KTune Dashboard</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dashboardNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="dashboardNavbar">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'messages' %}">Messages</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'booking_history' %}">Bookings</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'event_list' %}">Events</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'favorites' %}">Favorites</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'settings' %}">Settings</a></li>
+        <li class="nav-item">
+          <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button class="btn btn-sm btn-outline-danger ms-2">Logout</button>
+          </form>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endcomment %}

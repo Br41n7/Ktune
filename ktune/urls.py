@@ -18,13 +18,18 @@ from django.contrib import admin
 from django.forms.widgets import static
 from django.urls import path, include
 from django.urls.resolvers import settings
+from accounts.views import dashboard_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('dashboard/',dashboard_view,name='dashboard'),
     path('',include('home.urls')),
     path('events/',include('events.urls')),
     path('bookings/',include('bookings.urls')),
     path('accounts/',include('accounts.urls')),
+    path('reels/',include('reels.urls')),
+    path('artist/',include('artist.urls')),
+    path('payments/',include('payments.urls')),
 ]
 
 

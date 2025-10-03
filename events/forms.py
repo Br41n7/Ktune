@@ -12,6 +12,6 @@ class EventSearchForm(forms.Form):
 class EventForm(forms.ModelForm):
     class Meta:
         model=Event
-        fields=['name','artist','venue','category','date','start_time','end_time','description','image']
+        fields=['name','artist','venue','category','start_time','end_time','description','image']
 
     

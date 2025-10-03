@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h4>Latest Reels</h4>
+  <div class="row">
+    {% for reel in reels %}
+    <div class="col-md-4 mb-3">
+      <div class="card">
+        <video controls width="100%">
+          <source src="{{ reel.video.url }}" type="video/mp4">
+        </video>
+        <div class="card-body">
+          <h6 class="card-title">{{ reel.title }}</h6>
+          <small>By: {{ reel.artist.username }}</small>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

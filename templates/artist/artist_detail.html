@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h4>{{ artist.username }}'s Profile</h4>
+
+  <h5>Reels</h5>
+  <div class="row">
+    {% for reel in reels %}
+    <div class="col-md-4">
+      <video controls width="100%">
+        <source src="{{ reel.video.url }}">
+      </video>
+    </div>
+    {% empty %}
+    <p>No reels yet.</p>
+    {% endfor %}
+  </div>
+
+  <h5 class="mt-4">Events</h5>
+  <div class="list-group">
+    {% for event in events %}
+    <a href="{% url 'event_detail' event.id %}" class="list-group-item">{{ event.title }}</a>
+    {% empty %}
+    <p>No events yet.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

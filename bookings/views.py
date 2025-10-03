@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from .forms import BookingForm
 from .models import Booking, BookingHistory
 from events.models import Event, EventTicket
@@ -8,8 +9,9 @@ from events.models import Event, EventTicket
 def book_ticket(request, event_id):
     event = get_object_or_404(Event, id=event_id)
     ticket = EventTicket.objects.filter(event=event).first()
-
+    booking=Booking.objects.get(user_email=email,id=booking_id)
     if not ticket or ticket.quantity <= 0:
+        messages.error(request, "Sorry, this event is sold out.")
         return render(request, 'bookings/sold_out.html', {'event': event})
 
     if request.method == 'POST':
@@ -24,31 +26,38 @@ def book_ticket(request, event_id):
                 booking.total_cost = ticket.price * booking.quantity
                 booking.save()
 
-                # Update ticket quantity
+
+
+        if result['data']['status']=='success':
+                booking.status=booked
+                booking.save()
+
+
+                # Reduce available tickets
                 ticket.quantity -= booking.quantity
                 ticket.save()
-
-                # Save booking history
+                # Log booking history
                 BookingHistory.objects.create(
                     user=request.user,
                     booking=booking,
                     status='booked'
                 )
 
-                return redirect('booking_success')  # Ensure this URL exists
+                return redirect('initialize_payment',booking_id=booking.id)
     else:
         form = BookingForm()
 
-    return render(request, 'bookings/book_ticket.html', {'form': form, 'event': event})
+    return render(request, 'bookings/book_ticket.html', {
+        'form': form,
+        'event': event,
+        'ticket': ticket
+    })
 
 
 @login_required
 def cancel_booking(request, booking_id):
-    booking = get_object_or_404(Booking, id=booking_id)
-    if request.user != booking.user:
-        return redirect('access_denied')
+    booking = get_object_or_404(Booking, id=booking_id, user=request.user)
 
-    # Refund ticket quantity
     ticket = EventTicket.objects.filter(event=booking.event).first()
     if ticket:
         ticket.quantity += booking.quantity
@@ -61,21 +70,28 @@ def cancel_booking(request, booking_id):
     )
 
     booking.delete()
-    return redirect('booking_cancelled')  # Ensure this URL exists
+    messages.success(request, "Booking cancelled.")
+    return redirect('booking_cancelled')
 
 
 @login_required
 def booking_history(request):
-    history = BookingHistory.objects.filter(user=request.user).order_by('-booked_at')
+    history = BookingHistory.objects.filter(user=request.user).select_related('booking', 'booking__event').order_by('-booked_at')
+    if status_filter == 'booked':
+        history=history.filter(status='booked')
+    elif status_filter == 'cancelled':
+        history=history.filter(status='cancelled')
+
     return render(request, 'accounts/booking_history.html', {'booking_history': history})
+
 
 def booking_success(request):
     return render(request, 'bookings/booking_success.html')
 
+
 def booking_cancelled(request):
     return render(request, 'bookings/booking_cancelled.html')
 
+
 def access_denied(request):
     return render(request, 'bookings/access_denied.html')
-
-

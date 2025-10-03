@@ -1,20 +1,14 @@
 from django.db import models
 from django.utils import timezone
 from accounts.models import User
+from artist.models import Artist
 
 
-class Artist(models.Model):
-    name = models.CharField(max_length=255)
-    bio = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='artist_images/', blank=True, null=True)
-
-    def _str_(self):
-        return self.name
 
 class Venue(models.Model):
     name = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
-    capacity = models.PositiveIntegerField()
+    capacity = models.PositiveIntegerField(default=0)
 
     def _str_(self):
         return self.name
@@ -36,14 +30,14 @@ class Event(models.Model):
     description = models.TextField(blank=True, null=True)
 
     image = models.ImageField(upload_to='event_images/', blank=True, null=True)
-    date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
 
     created_at = models.DateTimeField(auto_now_add=True)
 
+    @property
     def is_expired(self):
-        return timezone.now().date() > self.date
+        return timezone.now().date() > self.end_time
 
     def _str_(self):
         return self.name
@@ -59,7 +53,7 @@ class EventTicket(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='tickets')
     ticket_type = models.CharField(max_length=50, choices=TICKET_TYPE_CHOICES, default='Regular')
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    quantity = models.PositiveIntegerField()
+    quantity = models.PositiveIntegerField(default=0)
 
     def _str_(self):
         return f"{self.event.name} - {self.ticket_type} - ₦{self.price}"
@@ -71,7 +65,7 @@ class EventTicket(models.Model):
 class Review(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    rating = models.PositiveIntegerField()
+    rating = models.PositiveIntegerField(default=0)
     review = models.TextField(blank=True, null=True)
 
 class Favorite(models.Model):

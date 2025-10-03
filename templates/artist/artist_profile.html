@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-body text-center">
+      {% if profile.profile_picture %}
+      <img src="{{ profile.profile_picture.url }}" class="rounded-circle mb-3" width="120" height="120"
+        alt="Artist Pic">
+      {% else %}
+      <img src="{% static 'images/default_profile.png' %}" class="rounded-circle mb-3" width="120" height="120"
+        alt="Default Pic">
+      {% endif %}
+      <h4>{{ profile.stage_name }}</h4>
+      <p>{{ profile.genre }}</p>
+      <p>{{ profile.bio }}</p>
+
+      <div class="mt-3">
+        {% if profile.instagram %}
+        <a href="{{ profile.instagram }}" target="_blank">Instagram</a>
+        {% endif %}
+        {% if profile.youtube %}
+        | <a href="{{ profile.youtube }}" target="_blank">YouTube</a>
+        {% endif %}
+        {% if profile.twitter %}
+        | <a href="{{ profile.twitter }}" target="_blank">Twitter</a>
+        {% endif %}
+      </div>
+
+      <div class="mt-4">
+        <a href="{% url 'edit_artist_profile' %}" class="btn btn-outline-primary btn-sm">Edit Profile</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,3 +1,40 @@
-{% for booking in booking_history %}
-{{ booking.booking.event.title }} ({{ booking.status }})
-{% endfor %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+  <h4 class="mb-4">My Booking History</h4>
+
+  <!-- Filter buttons -->
+  <div class="mb-3">
+    <a href="?status=all" class="btn btn-outline-primary btn-sm {% if not request.GET.status or request.GET.status == 'all' %}active{% endif %}">All</a>
+    <a href="?status=booked" class="btn btn-outline-success btn-sm {% if request.GET.status == 'booked' %}active{% endif %}">Booked</a>
+    <a href="?status=cancelled" class="btn btn-outline-danger btn-sm {% if request.GET.status == 'cancelled' %}active{% endif %}">Cancelled</a>
+  </div>
+
+  {% if booking_history %}
+    <div class="row">
+      {% for history in booking_history %}
+        <div class="col-md-6 mb-3">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">{{ history.booking.event.title }}</h5>
+              <p class="card-text mb-1">
+                <strong>Status:</strong> <span class="text-capitalize text-{{ 'success' if history.status == 'booked' else 'danger' }}">{{ history.status }}</span><br>
+                <strong>Quantity:</strong> {{ history.booking.quantity }}<br>
+                <strong>Total:</strong> ₦{{ history.booking.total_cost }}<br>
+                <small class="text-muted">Booked at: {{ history.booked_at|date:"M d, Y H:i" }}</small>
+              </p>
+              {% if history.status == 'booked' %}
+                <a href="{% url 'cancel_booking' history.booking.id %}" class="btn btn-sm btn-outline-danger mt-2">Cancel</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No bookings found.</p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h4>Featured Artists</h4>
+  <div class="row">
+    {% for artist in artists %}
+    <div class="col-md-4 mb-3">
+      <div class="card p-2">
+        <h5>{{ artist.username }}</h5>
+        <a href="{% url 'artist_detail' artist.id %}" class="btn btn-sm btn-outline-primary">View Profile</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

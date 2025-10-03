@@ -39,11 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # custom apps
+    'artist',
     'events',
     'bookings',
     'accounts',
     'home',
     'reels',
+    'payments',
 ]
 
 MIDDLEWARE = [
@@ -76,8 +80,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ktune.wsgi.application'
 
-AUTHENTICATION_BACKENDS=['django.contrib.auth.backends.ModelBackend',
-                         'accounts.backends.EmailBackend',]
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases

@@ -1,0 +1,21 @@
+<!-- templates/bnav.html -->
+<nav class="navbar fixed-bottom navbar-light bg-white border-top shadow-sm d-md-none">
+  <div class="container-fluid d-flex justify-content-around text-center">
+    <a href="{% url 'dashboard' %}" class="nav-link text-dark">
+      <i class="bi bi-house-door-fill"></i><br>
+      <small>Home</small>
+    </a>
+    <a href="{% url 'messages' %}" class="nav-link text-dark">
+      <i class="bi bi-chat-dots-fill"></i><br>
+      <small>Messages</small>
+    </a>
+    <a href="{% url 'event_list' %}" class="nav-link text-dark">
+      <i class="bi bi-calendar-event-fill"></i><br>
+      <small>Events</small>
+    </a>
+    <a href="{% url 'settings' %}" class="nav-link text-dark">
+      <i class="bi bi-gear-fill"></i><br>
+      <small>Settings</small>
+    </a>
+  </div>
+</nav>
