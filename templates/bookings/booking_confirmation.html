@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .box {
+      border: 1px solid #eee;
+      padding: 20px;
+      border-radius: 8px;
+      background: #f9f9f9;
+    }
+
+    h2 {
+      color: #6a0dad;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <h2>Booking Confirmed!</h2>
+    <p>Hi {{ user.username }},</p>
+    <p>You've successfully booked <strong>{{ booking.quantity }}</strong> ticket(s) for:</p>
+    <p><strong>{{ event.title }}</strong> on {{ event.date }}</p>
+
+    <p><strong>Total Cost:</strong> ${{ booking.total_cost }}</p>
+
+    {% if qr_url %}
+    <p>Show this QR at the event:</p>
+    <img src="{{ qr_url }}" alt="QR Code" width="200" />
+    {% endif %}
+
+    <p>Thank you for using our service!</p>
+  </div>
+</body>
+
+</html>

@@ -7,9 +7,11 @@
   
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYx/5tofwmG0RMeJ1MA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
   <!-- GLightbox CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet" />
+  <link href="http://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="{ static 'css/style.css' }"> 
     
   {% block styles %}
@@ -22,7 +24,7 @@
   {% endblock %}
   
   
-  <!-- Bootstrap JS Bundle (Popper included) -->
+  <!-- Bootstrap J Bundle (Popper included) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   
   <!-- GLightbox JS -->
@@ -30,7 +32,33 @@
   
   <script>
     const lightbox = GLightbox({});
-  </script>
+  // Toggle dark mode and store preference in localStorage
+  const toggleBtn = document.getElementById('darkModeToggle');
+  const body = document.body;
+
+  function setTheme(theme) {
+    if (theme === 'dark') {
+      body.classList.add('dark-mode');
+      localStorage.setItem('theme', 'dark');
+      toggleBtn.innerText = '☀️ Light Mode';
+    } else {
+      body.classList.remove('dark-mode');
+      localStorage.setItem('theme', 'light');
+      toggleBtn.innerText = '🌙 Dark Mode';
+    }
+  }
+
+  toggleBtn.addEventListener('click', () => {
+    const current = localStorage.getItem('theme') || 'light';
+    setTheme(current === 'dark' ? 'light' : 'dark');
+  });
+
+  // Load theme on page load
+  document.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme);
+  });
+</script>
   
   {% block scripts %}
   {% endblock %}

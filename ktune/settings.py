@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 from pathlib import Path
-
-from django.conf.global_settings import AUTH_USER_MODEL, AUTHENTICATION_BACKENDS, MEDIA_ROOT, MEDIA_URL
+from decouple import config
+from django.conf.global_settings import AUTH_USER_MODEL, AUTHENTICATION_BACKENDS, DEFAULT_FROM_EMAIL, EMAIL_BACKEND, MEDIA_ROOT, MEDIA_URL
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,7 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-epld2*x8neki=0byr&f&qw#i&a9h=+!9ew&7@pf)fhohj8h_ix'
-
+PAYSTACK_SECRET_KEY=config('PAYSTACK_SECRET_KEY')
+PAYSTACK_PUBLIC_KEY=config('PAYSTACK_PUBLIC_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -62,6 +63,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'ktune.urls'
 
+EMAIL_BACKEND='django.core.mail.backends.console.EMAIL_BACKEND'
+DEFAULT_FROM_EMAIL='noreply@example.com'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

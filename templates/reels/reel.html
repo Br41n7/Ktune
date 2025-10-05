@@ -1,0 +1,14 @@
+<!-- Reels Section -->
+<h5 class="mt-4">🎬 Artist Reels</h5>
+<div class="d-flex overflow-auto pb-2" style="gap: 15px;">
+  {% for reel in reels %}
+  <div class="flex-shrink-0" style="width: 180px;">
+    <video controls style="width: 100%; height: 240px; object-fit: cover;">
+      <source src="{{ reel.video.url }}" type="video/mp4">
+    </video>
+    <p class="text-center small mt-1">{{ reel.user.username }}</p>
+  </div>
+  {% empty %}
+  <p>No reels found.</p>
+  {% endfor %}
+</div>

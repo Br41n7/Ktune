@@ -1,11 +1,46 @@
-<h2>Account Settings</h2>
 
-{% if not user.is_host %}
-<form method="post">
-  {% csrf_token %}
-  <p>Want to become a host and publish events?</p>
-  <button type="submit" name="migrate_to_host" value="yes" class="btn btn-primary">Migrate to Host</button>
-</form>
-{% else %}
-<p>You are a host. Thanks for being with us!</p>
-{% endif %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-4">
+  <h2 class="mb-4">Settings</h2>
+
+  <div class="card mb-4">
+    <div class="card-header">Profile Settings</div>
+    <div class="card-body">
+      <p><strong>Username:</strong> {{ user.username }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header">Account Type</div>
+    <div class="card-body">
+      {% if user.is_host %}
+        <span class="badge bg-success">Host</span>
+      {% else %}
+        <form method="POST" action="{% url 'migrate_to_host' %}">
+          {% csrf_token %}
+          <button class="btn btn-outline-primary btn-sm">Migrate to Host</button>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header">Appearance</div>
+    <div class="card-body">
+      <button id="darkModeToggle" class="btn btn-outline-secondary btn-sm">🌙 Toggle Dark Mode</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">Security</div>
+    <div class="card-body">
+      <a href="#" class="btn btn-outline-danger btn-sm">Change Password</a>
+      <a href="{% url 'logout' %}" class="btn btn-outline-secondary btn-sm ms-2">Logout</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

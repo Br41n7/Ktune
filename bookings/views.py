@@ -1,9 +1,11 @@
+from django.core.mail import send_mail,EmailMessage
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import BookingForm
 from .models import Booking, BookingHistory
 from events.models import Event, EventTicket
+
 
 @login_required
 def book_ticket(request, event_id):
@@ -32,18 +34,28 @@ def book_ticket(request, event_id):
                 booking.status=booked
                 booking.save()
 
+        send_mail(
+            subject='Booking Confirmation',
+            message=f'Thank you {request.user.username}, your booking for "{event.title}" has been confirmed.',
+            from_mail=None,
+            recipient_list=[request.user.email],
+            fail_silently=True
+
+        )                        
+
 
                 # Reduce available tickets
-                ticket.quantity -= booking.quantity
-                ticket.save()
-                # Log booking history
-                BookingHistory.objects.create(
-                    user=request.user,
-                    booking=booking,
-                    status='booked'
-                )
+        ticket.quantity -= booking.quantity
+        ticket.save()
 
-                return redirect('initialize_payment',booking_id=booking.id)
+                # Log booking history
+        BookingHistory.objects.create(
+            user=request.user,
+            booking=booking,
+            status='booked'
+        )
+
+        return redirect('initialize_payment',booking_id=booking.id)
     else:
         form = BookingForm()
 

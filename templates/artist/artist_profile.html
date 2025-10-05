@@ -1,37 +1,53 @@
 {% extends 'base.html' %}
-{% load static %}
-
 {% block content %}
-<div class="container mt-4">
-  <div class="card shadow-sm">
-    <div class="card-body text-center">
-      {% if profile.profile_picture %}
-      <img src="{{ profile.profile_picture.url }}" class="rounded-circle mb-3" width="120" height="120"
-        alt="Artist Pic">
-      {% else %}
-      <img src="{% static 'images/default_profile.png' %}" class="rounded-circle mb-3" width="120" height="120"
-        alt="Default Pic">
-      {% endif %}
-      <h4>{{ profile.stage_name }}</h4>
-      <p>{{ profile.genre }}</p>
-      <p>{{ profile.bio }}</p>
+<div class="container py-4">
+  <div class="text-center mb-4">
+    <img src="{{ artist.profile_image.url|default:'/static/img/default-profile.png' }}" class="rounded-circle" width="100" height="100" alt="{{ artist.username }}">
+    <h3 class="mt-2">{{ artist.username }}</h3>
+    {% if artist.bio %}
+      <p class="text-muted">{{ artist.bio }}</p>
+    {% endif %}
+  </div>
 
-      <div class="mt-3">
-        {% if profile.instagram %}
-        <a href="{{ profile.instagram }}" target="_blank">Instagram</a>
-        {% endif %}
-        {% if profile.youtube %}
-        | <a href="{{ profile.youtube }}" target="_blank">YouTube</a>
-        {% endif %}
-        {% if profile.twitter %}
-        | <a href="{{ profile.twitter }}" target="_blank">Twitter</a>
-        {% endif %}
-      </div>
+  <hr>
 
-      <div class="mt-4">
-        <a href="{% url 'edit_artist_profile' %}" class="btn btn-outline-primary btn-sm">Edit Profile</a>
+  <h5 class="mb-3">Reels</h5>
+  <div class="row">
+    {% for reel in reels %}
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <video class="w-100" controls>
+            <source src="{{ reel.video.url }}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <div class="card-body">
+            <p class="card-text">{{ reel.caption|default:"No caption" }}</p>
+          </div>
+        </div>
       </div>
-    </div>
+    {% empty %}
+      <p class="text-muted">No reels uploaded yet.</p>
+    {% endfor %}
+  </div>
+
+  <hr>
+
+  <h5 class="mb-3">Events</h5>
+  <div class="row">
+    {% for event in events %}
+    <div class="col-md-6 mb-3">
+        <div class="card">
+          <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
+          <div class="card-body">
+            <h5>{{ event.title }}</h5>
+            <p class="text-muted small">{{ event.category }} • {{ event.date }}</p>
+            <a href="{% url 'event_detail' event.id %}" class="btn btn-sm btn-primary">View</a>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-muted">No events by this artist.</p>
+    {% endfor %}
   </div>
 </div>
 {% endblock %}

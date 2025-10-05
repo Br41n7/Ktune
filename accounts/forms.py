@@ -23,3 +23,7 @@ class RegistrationForm(forms.ModelForm):
         if password and confirm and password != confirm:
             self.add_error('confirm_password', "Passwords do not match")
 
+class SettingsForm(forms.Form):
+    class Meta:
+        model=User
+        fields=['profile_image','username','email','notify_on_event']

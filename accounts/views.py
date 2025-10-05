@@ -1,10 +1,13 @@
+# from asyncio import events
+from django.conf import Settings
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from .forms import LoginForm, RegistrationForm
+from .forms import LoginForm, RegistrationForm,SettingsForm
 from artist.forms import ArtistProfileForm
 from django.contrib.auth.decorators import login_required
 from artist.models import ArtistProfile
 from reels.models import Reel
+from events.models import Event
 
 def login_view(request):
     if request.method == 'POST':
@@ -44,17 +47,28 @@ def logout_view(request):
 
 @login_required
 def dashboard_view(request):
-    reels=Reel.objects.order_by('-created_at')[:10]
-    return render(request, 'accounts/dashboard.html')
+    events=Event.objects.all().order_by('-created_at')[:5]
+    reels=Reel.objects.order_by('-uploaded_at')[:5]
+    return render(request, 'accounts/dashboard.html',{
+        'events':events,
+        'reels':reels
+    })
 
 
 @login_required
 def settings_view(request):
-    if request.method == 'POST':
-        migrate = request.POST.get('migrate_to_host')
-        if migrate == 'yes' and not request.user.is_host:
-            request.user.is_host = True
-            request.user.save()
+    if request.method=='POST':
+        form=SettingsForm(request.POST,request.FILES,instance=request.user)
+        if form.is_valid():
+           form.save()
         return redirect('settings')
+    else:
+        form=SettingsForm(instance=request.user) 
     return render(request, 'accounts/settings.html')
 
+@login_required
+def migrate_to_host(request):
+    if request.method=='POST':
+       request.user.is_host=True
+       request.user.save() 
+    return redirect('settings')

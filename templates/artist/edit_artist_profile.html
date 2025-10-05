@@ -8,6 +8,11 @@
       <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
+
+        {% if user.profile_image %}
+        <img src="{{user.profile_image.url}}" alt="profile" <class="img-thumbnail mb-2 width=100">
+        {% endif %}
+
         <button type="submit" class="btn btn-primary">Save</button>
         <a href="{% url 'artist_profile' %}" class="btn btn-secondary">Cancel</a>
       </form>

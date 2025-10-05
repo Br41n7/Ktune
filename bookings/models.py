@@ -8,7 +8,6 @@ class Booking(models.Model):
     quantity = models.PositiveIntegerField()
     booking_date = models.DateTimeField(auto_now_add=True)
     total_cost = models.DecimalField(max_digits=10, decimal_places=2)
-    status=models.CharField(max_length=20,default='pending')
 
     def _str_(self):
         return f"{self.user.username} - {self.event.name} ({self.quantity})"

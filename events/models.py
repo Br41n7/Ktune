@@ -1,8 +1,13 @@
 from django.db import models
 from django.utils import timezone
 from accounts.models import User
-from artist.models import Artist
 
+class Artist(models.Model):
+    name=models.CharField(max_length=255)
+    bio=models.CharField(max_length=255)
+
+    def _str_(self):
+        return self.name 
 
 
 class Venue(models.Model):
@@ -28,7 +33,7 @@ class Event(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     host = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField(blank=True, null=True)
-
+    date=models.DateTimeField()
     image = models.ImageField(upload_to='event_images/', blank=True, null=True)
     start_time = models.TimeField()
     end_time = models.TimeField()

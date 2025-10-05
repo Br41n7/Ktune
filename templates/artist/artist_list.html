@@ -1,16 +1,24 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<div class="container mt-4">
-  <h4>Featured Artists</h4>
+<div class="container py-4">
+  <h3 class="text-center mb-4">Discover Artists</h3>
+  
   <div class="row">
     {% for artist in artists %}
-    <div class="col-md-4 mb-3">
-      <div class="card p-2">
-        <h5>{{ artist.username }}</h5>
-        <a href="{% url 'artist_detail' artist.id %}" class="btn btn-sm btn-outline-primary">View Profile</a>
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body text-center">
+            <img src="{{ artist.profile_image.url|default:'/static/img/default-profile.png' }}" class="rounded-circle mb-2" width="80" height="80" alt="{{ artist.username }}">
+            <h5 class="card-title">{{ artist.username }}</h5>
+            {% if artist.bio %}
+              <p class="text-muted small">{{ artist.bio|truncatewords:15 }}</p>
+            {% endif %}
+            <a href="{% url 'artist_profile' artist.username %}" class="btn btn-outline-primary btn-sm">View Profile</a>
+          </div>
+        </div>
       </div>
-    </div>
+    {% empty %}
+      <p class="text-center">No artists found yet.</p>
     {% endfor %}
   </div>
 </div>

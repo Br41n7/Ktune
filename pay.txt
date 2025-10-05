@@ -1,0 +1,2 @@
+secret = sk_test_c5eb692b44dd1deb19afdf36bd4982dc2f8a5689
+publick= pk_test_7c63328d029d2e68263288f3842cba0c92e229d9

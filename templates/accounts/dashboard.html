@@ -3,6 +3,7 @@
 
 {% block content %}
 <div class="container mt-4">
+  {%  comment%} 
   <!-- Top Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light rounded shadow-sm mb-4">
     <div class="container-fluid">
@@ -15,10 +16,21 @@
       </ul>
     </div>
   </nav>
-
+  {% endcomment %} 
+  {% include 'components/nav2.html' %}
   <!-- Welcome -->
   <h4 class="mb-3">Welcome, {{ user.username }}!</h4>
-
+<!-- Search and Category -->
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Search events..." name="q">
+    <select class="form-select" name="category">
+      <option value="">Category</option>
+      {% for cat in categories %}
+      <option value="{{ cat.id }}">{{ cat.name }}</option>
+      {% endfor %}
+    </select>
+    <button class="btn btn-outline-secondary" type="submit">Go</button>
+  </div>
   <!-- Events List -->
   {% for event in events %}
   <div class="card mb-3 shadow-sm">
@@ -56,7 +68,7 @@
     {% endfor %}
   </div>
 </div>
-
+{%comment%} 
 <!-- Bottom Navigation -->
 <nav class="navbar fixed-bottom navbar-light bg-light shadow-sm">
   <div class="container d-flex justify-content-around">
@@ -67,4 +79,6 @@
     <a href="#" class="text-center"><i class="bi bi-person"></i><br>Profile</a>
   </div>
 </nav>
+{% endcomment %}
+{% include 'components/bnav.html' %}
 {% endblock %}
