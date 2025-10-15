@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Welcome to KTune{% endblock %}
-{% include 'components/nav.html' %}
 {% block content %}
+{% include 'components/nav.html' %}
+
 <!-- Hero Section -->
 <section class="hero-section">
   <div class="container">
@@ -78,5 +80,5 @@
   </div>
 </section>
 
-{% include 'components/footer.html'}
+{% include 'components/footer.html' %}
 {% endblock %}

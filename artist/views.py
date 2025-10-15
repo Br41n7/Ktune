@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 from django.db.models import Q
 from reels.models import Reel 
 from events.models import Event  # adjust path as needed
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -44,6 +45,9 @@ def artist_list(request):
     artists = User.objects.filter(
         Q(reels_isnull=False) | Q(event_isnull=False)
     ).distinct()
+    paginator=Paginator(artists,8)
+    page_number=request.GET.get('page')
+    # page_obj=
     return render(request, 'artists/artist_list.html', {'artists': artists})
 
 def artist_detail(request, artist_id):
@@ -81,6 +85,14 @@ def follow_artist(request, username):
         else:
             profile.followers.add(request.user)
     return redirect('artist_profile', username=username)
+
+
+
+# @login_required
+# def my_followings(request):
+#     followings=Follow.objects.filter(follower=request.user).select_related('artist')
+#     return render(request,'artists/my_followings.html',{'followings':followings})
+#
 
 # @login_required
 # def follow_artist(request,artist_id):

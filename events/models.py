@@ -4,7 +4,7 @@ from accounts.models import User
 
 class Artist(models.Model):
     name=models.CharField(max_length=255)
-    bio=models.CharField(max_length=255)
+    # bio=models.CharField(max_length=255)
 
     def _str_(self):
         return self.name 
@@ -27,13 +27,13 @@ class Category(models.Model):
 
 
 class Event(models.Model):
-    name = models.CharField(max_length=255)
-    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
-    venue = models.ForeignKey(Venue, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    title = models.CharField(max_length=255,blank=True,null=True)
+    artist = models.CharField(max_length=255,null=True,blank=True)   #ForeignKey(Artist, on_delete=models.CASCADE)
+    venue = models.CharField(max_length=255,null=True,blank=True)   #ForeignKey(Venue, on_delete=models.CASCADE)
+    category = models.CharField(max_length=255,null=True,blank=True)   #ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     host = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField(blank=True, null=True)
-    date=models.DateTimeField()
+    date=models.DateTimeField(null=True,blank=True)
     image = models.ImageField(upload_to='event_images/', blank=True, null=True)
     start_time = models.TimeField()
     end_time = models.TimeField()
@@ -42,10 +42,10 @@ class Event(models.Model):
 
     @property
     def is_expired(self):
-        return timezone.now().date() > self.end_time
+        return timezone.now().date() > self.date
 
     def _str_(self):
-        return self.name
+        return self.title
 
 
 TICKET_TYPE_CHOICES = (
@@ -58,10 +58,10 @@ class EventTicket(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='tickets')
     ticket_type = models.CharField(max_length=50, choices=TICKET_TYPE_CHOICES, default='Regular')
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    quantity = models.PositiveIntegerField(default=0)
+    quantity = models.PositiveIntegerField(default=1000)
 
     def _str_(self):
-        return f"{self.event.name} - {self.ticket_type} - ₦{self.price}"
+        return f"{self.event.title} - {self.ticket_type} - ₦{self.price}"
 
     def is_sold_out(self):
         return self.quantity <= 0

@@ -1,10 +1,9 @@
 from django.contrib import admin
-from django.utils.ipv6 import clean_ipv6_address
-from .models import Event
+from .models import Event,EventTicket
 # Register your models here.
 #
-
-admin.register(Event)
+admin.site.register(EventTicket)
+admin.site.register(Event)
 class EventAdmin(admin.ModelAdmin):
-    list_display=['name','created']
+    list_display=['title','created','host','artist','price']
     list_filter=['created']

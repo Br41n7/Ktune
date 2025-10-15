@@ -1,5 +1,6 @@
-{% block content %}
+{% extends 'base.html' %}
 {% load form_tags %}
+{% block content %}
 <div class="container my-5">
   <div class="card shadow-sm">
     <div class="card-header bg-purple text-white">
@@ -10,49 +11,72 @@
         {% csrf_token %}
         
         <div class="col-md-6">
-          <label for="id_name" class="form-label">Event Name</label>
-          {{ form.name|add_class:"form-control" }}
+          <label for="id_title" class="form-label">Event Title</label>
+          {{ form.title }}
         </div>
 
         <div class="col-md-6">
           <label for="id_category" class="form-label">Category</label>
-          {{ form.category|add_class:"form-select" }}
+          {% comment %}          {{ form.category|add_class:"form-select" }} {% endcomment%}
+          <small>Or type a new one</small>
+          {{ form.new_category|add_class:"form-control mt-1" }}
         </div>
 
         <div class="col-md-6">
           <label for="id_venue" class="form-label">Venue</label>
-          {{ form.venue|add_class:"form-select" }}
-        </div>
+          {% comment %}          {{ form.venue|add_class:"form-select" }} {% endcomment %}
+           <small>Or type a new one</small>
+         {{ form.new_venue|add_class:"form-control mt-1" }}
+       </div>
 
         <div class="col-md-6">
           <label for="id_artist" class="form-label">Artist</label>
-          {{ form.artist|add_class:"form-select" }}
+          {% comment %}          {{form.artist|add_class:"form-select"}} {% endcomment %}
+           <small>Or type a new one</small>
+        {{ form.new_artist|add_class:"form-control mt-1" }}
         </div>
 
         <div class="col-md-6">
           <label for="id_date" class="form-label">Event Date</label>
-          {{ form.date|add_class:"form-control" }}
+          {{ form.date }}
         </div>
 
         <div class="col-md-3">
           <label for="id_start_time" class="form-label">Start Time</label>
-          {{ form.start_time|add_class:"form-control" }}
+          {{ form.start_time }}
         </div>
 
         <div class="col-md-3">
           <label for="id_end_time" class="form-label">End Time</label>
-          {{ form.end_time|add_class:"form-control" }}
+          {{ form.end_time }}
         </div>
 
         <div class="col-md-12">
           <label for="id_description" class="form-label">Description</label>
-          {{ form.description|add_class:"form-control" }}
+          {{ form.description }}
         </div>
 
         <div class="col-md-12">
           <label for="id_image" class="form-label">Upload Event Image</label>
-          {{ form.image|add_class:"form-control" }}
+          {{ form.image }}
         </div>
+        <hr>
+      <h5>Ticket Information</h5>
+
+      <div class="col-md-6">
+        <label for="id_ticket_type" class="form-label">Ticket Type</label>
+        {{ ticket_form.ticket_type }}
+      </div>
+
+      <div class="col-md-3">
+        <label for="id_price" class="form-label">Price (₦)</label>
+        {{ ticket_form.price }}
+      </div>
+
+      <div class="col-md-3">
+        <label for="id_quantity" class="form-label">Quantity</label>
+        {{ ticket_form.quantity }}
+      </div>
 
         <div class="col-12 mt-3">
           <button type="submit" class="btn btn-purple">Publish Event</button>
@@ -61,4 +85,5 @@
     </div>
   </div>
 </div>
+
 {% endblock %}

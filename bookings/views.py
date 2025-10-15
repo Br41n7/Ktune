@@ -88,6 +88,7 @@ def cancel_booking(request, booking_id):
 
 @login_required
 def booking_history(request):
+    status_filter=request.GET.get('status')
     history = BookingHistory.objects.filter(user=request.user).select_related('booking', 'booking__event').order_by('-booked_at')
     if status_filter == 'booked':
         history=history.filter(status='booked')

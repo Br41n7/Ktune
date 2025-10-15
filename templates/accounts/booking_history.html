@@ -20,7 +20,12 @@
             <div class="card-body">
               <h5 class="card-title">{{ history.booking.event.title }}</h5>
               <p class="card-text mb-1">
-                <strong>Status:</strong> <span class="text-capitalize text-{{ 'success' if history.status == 'booked' else 'danger' }}">{{ history.status }}</span><br>
+                <strong>Status:</strong>
+                {% if history.status == 'booked' %}
+                  <span class="text-capitalize text-success">{{ history.status }}</span>
+                {% else %}
+                <span class="text-capitalize text-danger">{{ history.status }}</span>
+                {% endif %}<br>
                 <strong>Quantity:</strong> {{ history.booking.quantity }}<br>
                 <strong>Total:</strong> ₦{{ history.booking.total_cost }}<br>
                 <small class="text-muted">Booked at: {{ history.booked_at|date:"M d, Y H:i" }}</small>

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h3>People Following You</h3>
+  <hr>
+  {% if followers %}
+  <ul class="list-group">
+    {% for follow in followers %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      {{ follow.follower.username }}
+      <a href="#" class="btn btn-outline-secondary btn-sm">Message</a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>No one is following you yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

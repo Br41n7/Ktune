@@ -9,6 +9,36 @@
     {% endif %}
   </div>
 
+  {% comment %}
+  <div class="artist-meta">
+   <h2>{{ artist.username }}</h2>
+   <p>{{ follow_count }} Followers * {{ following_count }} Following
+   </p>
+  </div>
+<div class="d-flex gap-4 my-3">
+  <div> <strong> {{followers_count}} </strong</div>
+  <div><strong>{{following_count}}</strong></div>
+</div>
+
+
+<h5>followers</h5>
+<ul>
+{% for follow in followers %}
+<li>{{ follow.follower.username }}</li>
+<li>no followers yet.</li>
+{% endfor %}
+</ul>
+
+
+  {% if user != artist %}
+  {% if user in artist.followers.all.values_list('follower', flat=True) %}
+    <a href="{% url 'unfollow_artist' artist.id %}" class="btn btn-danger">Unfollow</a>
+  {% else %}
+    <a href="{% url 'follow_artist' artist.id %}" class="btn btn-primary">Follow</a>
+  {% endif %}
+{% endif %}
+{%endcomment%}
+
   <hr>
 
   <h5 class="mb-3">Reels</h5>
@@ -41,7 +71,7 @@
           <div class="card-body">
             <h5>{{ event.title }}</h5>
             <p class="text-muted small">{{ event.category }} • {{ event.date }}</p>
-            <a href="{% url 'event_detail' event.id %}" class="btn btn-sm btn-primary">View</a>
+            <a href="{% url 'events:event_detail' event.id %}" class="btn btn-sm btn-primary">View</a>
           </div>
         </div>
       </div>

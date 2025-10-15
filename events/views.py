@@ -4,23 +4,53 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from .models import Event, Favorite, EventHistory,Category
-from .forms import EventForm, EventSearchForm  # Make sure this exists
+from .models import Event, Favorite, EventHistory,Category,Venue,Artist
+from .forms import EventForm, EventSearchForm,EventTicketForm  
 
 @login_required
 def create_event(request):
-    if not request.user.is_host:
-        return HttpResponseForbidden("You are not authorize to create events")
-    if request.method=='POST':
-        form=EventForm(request.POST,request.FILES)
-        if form.is_valid():
-            event=form.save(commit=False)
-            event.host=request.user
+    if request.method == 'POST':
+        form = EventForm(request.POST, request.FILES)
+        ticket_form = EventTicketForm(request.POST)
+
+        if form.is_valid() and ticket_form.is_valid():
+            event = form.save(commit=False)
+            event.host = request.user
+
+            # Handle new or existing category
+            new_category = form.cleaned_data.get('new_category')
+            if new_category:
+                category, _ = Category.objects.get_or_create(name=new_category)
+                event.category = category
+
+            # Handle new or existing venue
+            new_venue = form.cleaned_data.get('new_venue')
+            if new_venue:
+                venue, _ = Venue.objects.get_or_create(name=new_venue)
+                event.venue = venue
+
+            # Handle new or existing artist
+            new_artist = form.cleaned_data.get('new_artist')
+            if new_artist:
+                artist, _ = Artist.objects.get_or_create(name=new_artist)
+                event.artist = artist
+
             event.save()
-            return redirect('event_detail',pk=event.pk)
+
+            ticket = ticket_form.save(commit=False)
+            ticket.event = event
+            ticket.save()
+
+            return redirect('event_detail', event.id)
     else:
-        form=EventForm()
-    return render(request,'events/create_event.html',{'form':form})
+        form = EventForm()
+        ticket_form = EventTicketForm()
+
+    return render(request, 'events/create_event.html', {
+        'form': form,
+        'ticket_form': ticket_form
+    })
+
 
 
 
